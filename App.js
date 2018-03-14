@@ -1,39 +1,51 @@
-/**
- * Sample React Native App
- * https://github.com/facebook/react-native
- * @flow
- */
-
 import React, { Component } from 'react';
 import {
-  Platform,
   StyleSheet,
   Text,
-  View
+  View,
+  ScrollView,
+  Button,
 } from 'react-native';
 
-const instructions = Platform.select({
-  ios: 'Press Cmd+R to reload,\n' +
-    'Cmd+D or shake for dev menu',
-  android: 'Double tap R on your keyboard to reload,\n' +
-    'Shake or press menu button for dev menu',
-});
+export default class App extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      buttonName: null,
+    };
+  }
 
-type Props = {};
-export default class App extends Component<Props> {
+  handleButtonClick(buttonName) {
+    this.setState({ buttonName });
+  }
+
   render() {
     return (
-      <View style={styles.container}>
-        <Text style={styles.welcome}>
-          Welcome to React Native!
-        </Text>
-        <Text style={styles.instructions}>
-          To get started, edit App.js
-        </Text>
-        <Text style={styles.instructions}>
-          {instructions}
-        </Text>
-      </View>
+      <ScrollView>
+        <View style={styles.container}>
+          <Text style={styles.welcome}>
+            Welcome to React Native!
+          </Text>
+          {this.state.buttonName === '1' &&
+            <Text accessibilityLabel="text1" style={styles.instructions}>
+              To get started, edit index.android.js
+            </Text>
+          }
+          {this.state.buttonName === '2' &&
+            <Text accessibilityLabel="text2" style={styles.instructions}>
+              Double tap R on your keyboard to reload,{'\n'}
+              Shake or press menu button for dev menu
+            </Text>
+          }
+          <Button accessibilityLabel="button1" title="1" style={styles.button} onPress={() => this.handleButtonClick('1')} />
+          <Button accessibilityLabel="button2" title="2" style={styles.button} onPress={() => this.handleButtonClick('2')} />
+          <View style={styles.space}>
+            <Text accessibilityLabel="text3">
+              Scroll Text
+            </Text>
+          </View>
+        </View>
+      </ScrollView>
     );
   }
 }
@@ -54,5 +66,12 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     color: '#333333',
     marginBottom: 5,
+  },
+  button: {
+    width: 200,
+    height: 200,
+  },
+  space: {
+    marginTop: 1000
   },
 });
